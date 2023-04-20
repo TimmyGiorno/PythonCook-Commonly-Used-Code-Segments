@@ -20,15 +20,18 @@ def get_device():
 
 
 def download_mnist():
-    # Download training data from open datasets.
+
     training_data = datasets.FashionMNIST(
+        # root: the path where the train/test data is stored.
         root="data",
+        # train: specifies training or test dataset.
         train=True,
+        # downloads the data from the internet if it’s not available at root.
         download=True,
+        # specify the feature and label transformations.
         transform=ToTensor(),
     )
 
-    # Download test data from open datasets.
     test_data = datasets.FashionMNIST(
         root="data",
         train=False,
@@ -37,6 +40,7 @@ def download_mnist():
     )
 
     return training_data, test_data
+
 
 
 class NeuralNetwork(nn.Module):
@@ -110,7 +114,13 @@ if __name__ == "__main__":
     LEARNING_RATE = 1e-3
     EPOCHS = 5
 
-    # Crate datasets.
+    '''
+    Crate datasets.
+    PyTorch provides two data primitives: torch.utils.data.DataLoader and torch.utils.data.Dataset 
+    that allow you to use pre-loaded datasets as well as your own data. 
+    Dataset stores the samples and their corresponding labels, 
+    and DataLoader wraps an iterable around the Dataset to enable easy access to the samples.
+    '''
     training_data, test_data = download_mnist()
     train_dataloader = DataLoader(training_data, batch_size=BATCH_SIZE)
     test_dataloader = DataLoader(test_data, batch_size=BATCH_SIZE)
